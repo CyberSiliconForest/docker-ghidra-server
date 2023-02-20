@@ -4,3 +4,4 @@
 dyld_shared_cache*
 System
 projects
+/repos/*
