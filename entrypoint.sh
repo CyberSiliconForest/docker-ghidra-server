@@ -2,10 +2,16 @@
 
 set -e
 
+pushd /ghidra/server
+
 # Do templating stuff
-cat /ghidra/server/jaas.conf.template |
+cat jaas.conf.template |
   sed "s#__GHIDRA_LDAP_SERVER__#${GHIDRA_LDAP_SERVER}#g" |
-  sed "s#__GHIDRA_LDAP_DN__#${GHIDRA_LDAP_DN}#g" > /ghidra/server/jaas.conf
+  sed "s#__GHIDRA_LDAP_DN__#${GHIDRA_LDAP_DN}#g" > jaas.conf
+
+./certificate.sh /certs/server.key /certs/server.crt
+
+popd
 
 if [ "$1" = 'server' ]; then
   shift

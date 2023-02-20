@@ -10,6 +10,8 @@ services:
       - 13102:13102
     volumes:
       - ./repos:/repos
+      - /etc/letsencrypt/live/example.com/privkey.pem:/certs/server.key:ro
+      - /etc/letsencrypt/live/example.com/fullchain.pem:/certs/server.crt:ro
     environment:
       GHIDRA_PUBLIC_HOSTNAME: 0.0.0.0
       GHIDRA_LDAP_DN: ou=users,dc=auth,dc=example,dc=com

@@ -28,12 +28,14 @@ RUN apt-get update && apt-get install -y wget unzip dnsutils --no-install-recomm
 WORKDIR /ghidra
 
 COPY entrypoint.sh /entrypoint.sh
+COPY certificate.sh /ghidra/server/certificate.sh
 COPY server.conf /ghidra/server/server.conf
 COPY jaas.conf.template /ghidra/server/jaas.conf.template
 
 EXPOSE 13100 13101 13102
 
 RUN mkdir /repos
+RUN mkdir /certs
 
 ENTRYPOINT ["/tini", "--", "/entrypoint.sh"]
 CMD ["server"]
