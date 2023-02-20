@@ -2,6 +2,11 @@
 
 set -e
 
+# Do templating stuff
+cat /ghidra/server/jaas.conf.template |
+  sed "s#__GHIDRA_LDAP_SERVER__#${GHIDRA_LDAP_SERVER}#g" |
+  sed "s#__GHIDRA_LDAP_DN__#${GHIDRA_LDAP_DN}#g" > /ghidra/server/jaas.conf
+
 if [ "$1" = 'server' ]; then
   shift
   # Figure out public address
