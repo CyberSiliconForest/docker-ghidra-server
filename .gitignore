@@ -5,3 +5,5 @@ dyld_shared_cache*
 System
 projects
 /repos/*
+
+docker-compose.yml

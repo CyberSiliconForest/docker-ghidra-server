@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  ghidra:
+    image: siliconforest/ghidra-server
+    build: .
+    ports:
+      - 13100:13100
+      - 13101:13101
+      - 13102:13102
+    volumes:
+      - ./repos:/repos
+    environment:
+      GHIDRA_PUBLIC_HOSTNAME: 0.0.0.0
+      GHIDRA_LDAP_DN: ou=users,dc=auth,dc=example,dc=com
+      GHIDRA_LDAP_SERVER: 'ldap://authentik_ldap:3389'
+    depends_on:
+      - authentik_ldap
+  authentik_ldap:
+    image: ghcr.io/goauthentik/ldap
+    # Optionally specify which networks the container should be
+    # might be needed to reach the core authentik server
+    # networks:
+    #   - foo
+    environment:
+      AUTHENTIK_HOST: https://example.com
+      AUTHENTIK_INSECURE: "false"
+      AUTHENTIK_TOKEN: [REDACTED]
+
