@@ -7,6 +7,13 @@ ENV GHIDRA_SHA daf4d85ec1a8ca55bf766e97ec43a14b519cbd1060168e4ec45d429d23c31c38
 
 ENV DL https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_${GHIDRA_VERSION}_build/ghidra_${GHIDRA_VERSION}_${GHIDRA_FLAVOR}_${GHIDRA_BUILDDATE}.zip
 
+
+# Install tini
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
+
 RUN apt-get update && apt-get install -y wget unzip dnsutils --no-install-recommends \
     && wget --progress=bar:force -O /tmp/ghidra.zip ${DL} \
     && echo "$GHIDRA_SHA /tmp/ghidra.zip" | sha256sum -c - \
@@ -27,5 +34,5 @@ EXPOSE 13100 13101 13102
 
 RUN mkdir /repos
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/tini", "--", "/entrypoint.sh"]
 CMD ["server"]
